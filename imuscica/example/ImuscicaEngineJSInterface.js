@@ -2,17 +2,20 @@ var ImuscicaEngine =
 {
     // variables that used for return values of JS side functions (set by Unity)
     _isMusicStringEnabled: false,
+    _instrumentData: "",
 
     // ------------------
     //  public functions
     // ------------------
     getInstrumentData: function()
     {
-        return "";
+        gameInstance.SendMessage("ImuscicaEngine", "QueryInstrumentData");
+        return JSON.parse(this._instrumentData);
     },
 
     setInstrumentData: function(instrumentData)
     {
+        gameInstance.SendMessage("ImuscicaEngine", "SetInstrumentData", JSON.stringify(instrumentData));
     },
 
     enableMusicString: function(index, flag)
