@@ -38,7 +38,6 @@
 		<script src="js/libs/stats.min.js"></script>
 
 		<script>
-
 			if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
 
 			var container, stats, controls;
@@ -69,19 +68,13 @@
             function loadWithUrl(url)
             {
                 var loader = new THREE.GLTFLoader();
-                loader.load( url, function ( gltf )
-                {
-                    loadGLTF(gltf);
-                });
+                loader.load(url, loadGLTF);
             }
             
             function loadWithJsonString(str)
             {
                 var loader = new THREE.GLTFLoader();
-                loader.parse(str, function ( gltf )
-                {
-                    loadGLTF(gltf);
-                });
+                loader.parse(str, "", loadGLTF);
             }
             
             function loadWithJson(json)
@@ -117,8 +110,8 @@
 				light.position.set( 0, 1, 0 );
 				scene.add( light );
 
-				// model
-                loadWithUrl('http://static.leopoly.devel/resimuscica/static_models/Monochord.gltf');
+                loadWithUrl('models/gltf/BoxTextured.gltf');
+                //loadWithUrl('http://static.leopoly.devel/resimuscica/static_models/Guitar.gltf');
 
 				renderer = new THREE.WebGLRenderer( { antialias: true } );
 				renderer.setPixelRatio( window.devicePixelRatio );
