@@ -10,31 +10,26 @@ var ImuscicaEngine =
 		bodyEndPos: [0.11, 0, 0], bodyEndRot: [0, 0, 0, 1], bodyEndScale: [1, 1, 1], 
 		numBars: 5 } },
     
-    // variables that used for return values of JS side functions (set by Unity)
-    _isMusicStringEnabled: false,
-	_numBars: 5,
-	_barLength: 0,
-	_minBarLength: 0,
-	_maxBarLength: 0,
-    _instrumentData: "",
+    // variable that used for return value of JS side functions (set by Unity JS plugin)
+	_valueSetByUnity: 0,
 
     // ------------------
     //  public functions
     // ------------------
+	setStaticModelsUrl: function(url)
+    {
+        gameInstance.SendMessage("ImuscicaEngine", "SetStaticModelsUrl", url);
+    },
+	
     getInstrumentData: function()
     {
         gameInstance.SendMessage("ImuscicaEngine", "QueryInstrumentData");
-        return JSON.parse(this._instrumentData);
+        return JSON.parse(this._valueSetByUnity);
     },
 
     setInstrumentData: function(instrumentData)
     {
         gameInstance.SendMessage("ImuscicaEngine", "SetInstrumentData", JSON.stringify(instrumentData));
-    },
-    
-    setStaticModelsUrl: function(url)
-    {
-        gameInstance.SendMessage("ImuscicaEngine", "SetStaticModelsUrl", url);
     },
     
     enableMusicString: function(index, flag)
@@ -52,9 +47,31 @@ var ImuscicaEngine =
     isMusicStringEnabled: function(index)
     {
         gameInstance.SendMessage("ImuscicaEngine", "QueryMusicStringEnabled", index);
-        return this._isMusicStringEnabled;
+        return this._valueSetByUnity;
     },
-    
+	
+	setInstrumentLength: function(length)
+	{
+		gameInstance.SendMessage("ImuscicaEngine", "SetInstrumentLength", length);
+	},
+	
+	setBridgePos: function(index, bridgePos)
+	{
+		var value = index.toString() + " " + bridgePos.toString();
+		gameInstance.SendMessage("ImuscicaEngine", "SetBridgePos", value);
+	},
+	
+	getBridgePos: function(index)
+	{
+		gameInstance.SendMessage("ImuscicaEngine", "QueryBridgePos", index);
+        return this._valueSetByUnity;
+	},
+	
+	bridgeMovedToExtremalPosition: function(index, pos)
+	{
+		console.log("Monochord bridge" + index + " moved to " + pos);
+	},
+	
     setBarNum: function(numBars)
     {
 		gameInstance.SendMessage("ImuscicaEngine", "SetBarNum", numBars);
@@ -63,7 +80,7 @@ var ImuscicaEngine =
     getBarNum: function()
     {
         gameInstance.SendMessage("ImuscicaEngine", "QueryBarNum", index);
-        return this._numBars;
+        return this._valueSetByUnity;
     },
 	
 	setBarLength: function(index, length)
@@ -75,12 +92,28 @@ var ImuscicaEngine =
     getBarLength: function(index)
     {
 		gameInstance.SendMessage("ImuscicaEngine", "QueryBarLength", index);
-        return this._barLength;
+        return this._valueSetByUnity;
     },
 
     getBarLengthLimits: function(index)
     {
 		gameInstance.SendMessage("ImuscicaEngine", "QueryBarLengthLimits", index);
-        return [this._minBarLength, this._maxBarLength];
-    }
+        return this._valueSetByUnity;
+    },
+	
+	getBarColor: function(index)
+	{
+		gameInstance.SendMessage("ImuscicaEngine", "QueryBarColor", index);
+		return this._valueSetByUnity;
+	},
+	
+	uploadObj: function(url)
+	{
+		gameInstance.SendMessage("ImuscicaEngine", "UploadObj", url);
+	},
+	
+	uploadCompleted: function(responseText)
+	{
+		console.log("upload completed: " + responseText);
+	}
 };
