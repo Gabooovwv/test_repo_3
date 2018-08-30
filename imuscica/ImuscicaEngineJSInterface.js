@@ -114,6 +114,8 @@ var ImuscicaEngine =
 	
 	uploadCompleted: function(responseText)
 	{
+		Leopoly[Leopoly.applicationVersion].Communication.Athena.uploadCompleted();
+
 		console.log("upload completed: " + responseText);
 	}
 };
