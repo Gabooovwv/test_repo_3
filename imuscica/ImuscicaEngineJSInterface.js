@@ -108,6 +108,11 @@ var ImuscicaEngine =
 		return this._valueSetByUnity;
 	},
 	
+	barSelected: function(index)
+	{
+		console.log("bar " + index + " selected");
+	},
+	
 	uploadObj: function(url)
 	{
 		gameInstance.SendMessage("ImuscicaEngine", "UploadObj", url);
