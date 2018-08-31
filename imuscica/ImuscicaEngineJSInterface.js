@@ -70,6 +70,7 @@ var ImuscicaEngine =
 	bridgeMovedToExtremalPosition: function(index, pos)
 	{
 		console.log("Monochord bridge" + index + " moved to " + pos);
+		Leopoly[Leopoly.applicationVersion].Gui.bridgeMovedToExtremalPosition(index, pos);
 	},
 	
     setBarNum: function(numBars)
@@ -114,7 +115,7 @@ var ImuscicaEngine =
 	
 	uploadCompleted: function(responseText)
 	{
-		Leopoly[Leopoly.applicationVersion].Communication.Athena.uploadCompleted(responseText);
 		console.log("upload completed: " + responseText);
+		Leopoly[Leopoly.applicationVersion].Communication.Athena.uploadCompleted(responseText);
 	}
 };
