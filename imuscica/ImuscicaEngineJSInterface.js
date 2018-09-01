@@ -111,6 +111,7 @@ var ImuscicaEngine =
 	barSelected: function(index)
 	{
 		console.log("bar " + index + " selected");
+		Leopoly[Leopoly.applicationVersion].Gui.barSelected(index);
 	},
 	
 	uploadObj: function(url)
