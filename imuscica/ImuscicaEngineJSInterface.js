@@ -102,9 +102,16 @@ var ImuscicaEngine =
         return this._valueSetByUnity;
     },
 	
+	// deprecated, use getPartColor instead
 	getBarColor: function(index)
 	{
 		gameInstance.SendMessage("ImuscicaEngine", "QueryBarColor", index);
+		return this._valueSetByUnity;
+	},
+	
+	getPartColor: function(index)
+	{
+		gameInstance.SendMessage("ImuscicaEngine", "QueryPartColor", index);
 		return this._valueSetByUnity;
 	},
 	
