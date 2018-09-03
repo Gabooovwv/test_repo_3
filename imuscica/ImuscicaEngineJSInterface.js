@@ -55,6 +55,18 @@ var ImuscicaEngine =
 		gameInstance.SendMessage("ImuscicaEngine", "SetInstrumentLength", length);
 	},
 	
+	getInstrumentLength: function()
+	{
+		gameInstance.SendMessage("ImuscicaEngine", "QueryInstrumentLength");
+        return this._valueSetByUnity;
+	},
+	
+	getInstrumentLengthLimits: function()
+	{
+		gameInstance.SendMessage("ImuscicaEngine", "QueryInstrumentLengthLimits");
+		return this._valueSetByUnity;
+	},
+	
 	setBridgePos: function(index, bridgePos)
 	{
 		var value = index.toString() + " " + bridgePos.toString();
