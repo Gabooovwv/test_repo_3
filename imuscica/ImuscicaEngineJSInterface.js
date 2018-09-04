@@ -154,7 +154,7 @@ var ImuscicaEngine =
 		return this._valueSetByUnity;	// array of 3 numbers [r, g, b], each in [0,1]
 	},
 	
-	barSelected: function(index)
+	onBarSelected: function(index)
 	{
 		console.log("bar " + index + " selected");
 		Leopoly[Leopoly.applicationVersion].Gui.barSelected(index);
