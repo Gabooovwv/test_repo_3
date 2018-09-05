@@ -163,6 +163,7 @@ var ImuscicaEngine =
 	onPlucked: function(index)
 	{
 		console.log("instrument part " + index + " plucked");
+		Leopoly[Leopoly.applicationVersion].Events.xylophoneTry(index);
 	},
 	
 	uploadObj: function(url)
