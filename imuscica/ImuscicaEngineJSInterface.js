@@ -119,7 +119,7 @@ var ImuscicaEngine =
 
 	getBarNum: function()
 	{
-		gameInstance.SendMessage("ImuscicaEngine", "QueryBarNum", index);
+		gameInstance.SendMessage("ImuscicaEngine", "QueryBarNum");
 		return this._valueSetByUnity;	// number
 	},
 
