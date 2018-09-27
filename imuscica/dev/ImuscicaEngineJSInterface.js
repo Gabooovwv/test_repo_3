@@ -1,4 +1,4 @@
-var ImuscicaEngine =
+var ImuscicaEngine = 
 {
 	// default instrument data
 	defaultMonochordData: { description: { type: "Monochord", 
@@ -33,6 +33,11 @@ var ImuscicaEngine =
 	setInstrumentData: function(instrumentData)
 	{
 		gameInstance.SendMessage("ImuscicaEngine", "SetInstrumentData", JSON.stringify(instrumentData));
+	},
+	
+	resetCamera: function(cameraAnimTimeInSeconds)
+	{
+		gameInstance.SendMessage("ImuscicaEngine", "ResetCamera", cameraAnimTimeInSeconds);
 	},
 
 	getGLTF: function()
@@ -167,37 +172,31 @@ var ImuscicaEngine =
 		onEngineLoaded: function()
 		{
 			console.log("Engine loaded");
-			Leopoly[Leopoly.applicationVersion].engineLoaded = true;
 		},
 		
 		onBridgeMovedToExtremalPosition: function(index, pos)
 		{
 			console.log("Monochord bridge" + index + " moved to " + pos);
-			Leopoly[Leopoly.applicationVersion].Gui.bridgeMovedToExtremalPosition(index, pos);
 		},
 		
 		onPlucked: function(index)
 		{
 			console.log("instrument part " + index + " plucked");
-			Leopoly[Leopoly.applicationVersion].Events[Leopoly[Leopoly.applicationVersion].instrumentName + 'Try'](index);
 		},
 		
 		onBarSelected: function(index)
 		{
 			console.log("bar " + index + " selected");
-			Leopoly[Leopoly.applicationVersion].Gui.barSelected(index);
 		},
 		
 		onBarLengthChanged: function(index, length)
 		{
 			console.log("bar " + index + " length changed to " + length);
-			Leopoly[Leopoly.applicationVersion].Gui.setBarLength(index, length);
 		},
 		
 		onUploadCompleted: function(responseText)
 		{
 			console.log("upload completed: " + responseText);
-			Leopoly[Leopoly.applicationVersion].Communication.Athena.uploadCompleted(responseText);
 		}
 	}
 };
