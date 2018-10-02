@@ -35,8 +35,35 @@ var ImuscicaEngine =
 		gameInstance.SendMessage("ImuscicaEngine", "SetInstrumentData", JSON.stringify(instrumentData));
 	},
 	
+	setCameraPose: function(cameraPose, cameraAnimTimeInSeconds)
+	{
+		if (typeof cameraAnimTimeInSeconds === 'undefined')
+		{
+			cameraAnimTimeInSeconds = 0.5;
+		}
+		
+		var value = "";
+		for (var i = 0; i < 7; ++i)
+		{
+			value += cameraPose[i].toString() + " ";
+		}
+		value += cameraAnimTimeInSeconds.toString();
+		
+		gameInstance.SendMessage("ImuscicaEngine", "SetCameraPoseWithString", value);
+	},
+	
+	getCameraPose: function()
+	{
+		gameInstance.SendMessage("ImuscicaEngine", "QueryCameraPose");
+		return this._valueSetByUnity;	// array of 7 numbers: [px, py, pz, rx, ry, rz, rw]
+	},
+	
 	resetCamera: function(cameraAnimTimeInSeconds)
 	{
+		if (typeof cameraAnimTimeInSeconds === 'undefined')
+		{
+			cameraAnimTimeInSeconds = 0.5;
+		}
 		gameInstance.SendMessage("ImuscicaEngine", "ResetCamera", cameraAnimTimeInSeconds);
 	},
 
