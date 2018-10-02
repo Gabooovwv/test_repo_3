@@ -105,15 +105,27 @@ var ImuscicaEngine =
 		return this._valueSetByUnity;	// array of 2 numbers [min, max]
 	},
 
-	setBridgePos: function(index, bridgePos)
+	setBridgePos: function(index, pos)
 	{
-		var value = index.toString() + " " + bridgePos.toString();
-		gameInstance.SendMessage("ImuscicaEngine", "SetBridgePos", value);
+		var value = index.toString() + " " + pos.toString();
+		gameInstance.SendMessage("ImuscicaEngine", "SetBridgePosWithString", value);
 	},
-
+	
 	getBridgePos: function(index)
 	{
 		gameInstance.SendMessage("ImuscicaEngine", "QueryBridgePos", index);
+		return this._valueSetByUnity;	// number
+	},
+	
+	setBridgeRatio: function(index, ratio)
+	{
+		var value = index.toString() + " " + ratio.toString();
+		gameInstance.SendMessage("ImuscicaEngine", "SetBridgeRatioWithString", value);
+	},
+	
+	getBridgeRatio: function(index)
+	{
+		gameInstance.SendMessage("ImuscicaEngine", "QueryBridgeRatio", value);
 		return this._valueSetByUnity;	// number
 	},
 
@@ -174,9 +186,9 @@ var ImuscicaEngine =
 			console.log("Engine loaded");
 		},
 		
-		onBridgeMovedToExtremalPosition: function(index, pos)
+		onBridgeMoved: function(index, pos, ratio)
 		{
-			console.log("Monochord bridge" + index + " moved to " + pos);
+			console.log("Monochord bridge " + index + " moved to " + pos + " (" + ratio * 100.0 + "%)");
 		},
 		
 		onPlucked: function(index)
