@@ -152,7 +152,7 @@ var ImuscicaEngine =
 	
 	getBridgeRatio: function(index)
 	{
-		gameInstance.SendMessage("ImuscicaEngine", "QueryBridgeRatio", value);
+		gameInstance.SendMessage("ImuscicaEngine", "QueryBridgeRatio", index);
 		return this._valueSetByUnity;	// number
 	},
 
