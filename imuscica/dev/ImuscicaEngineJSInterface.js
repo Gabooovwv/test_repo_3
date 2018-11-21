@@ -23,6 +23,17 @@ var ImuscicaEngine =
 	{
 		gameInstance.SendMessage("ImuscicaEngine", "SetStaticModelsUrl", url);
 	},
+	
+	setBaseMetric: function(metric, decimals)
+	{
+		var value = metric + " " + decimals;
+		gameInstance.SendMessage("ImuscicaEngine", "SetBaseMetricWithString", value);
+	},
+	
+	setMeterRoundDecimals: function(decimals)
+	{
+		gameInstance.SendMessage("ImuscicaEngine", "SetMeterRoundDecimals", decimals);
+	},
 
 	getInstrumentData: function()
 	{
