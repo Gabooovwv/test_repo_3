@@ -136,6 +136,12 @@ var ImuscicaEngine =
 		gameInstance.SendMessage("ImuscicaEngine", "QueryInstrumentLength");
 		return this._valueSetByUnity;	// number
 	},
+	
+	getInstrumentLengthRounded: function()
+	{
+		gameInstance.SendMessage("ImuscicaEngine", "QueryInstrumentLengthRounded");
+		return this._valueSetByUnity;
+	},
 
 	getInstrumentLengthLimits: function()
 	{
@@ -152,6 +158,12 @@ var ImuscicaEngine =
 	getBridgePos: function(index)
 	{
 		gameInstance.SendMessage("ImuscicaEngine", "QueryBridgePos", index);
+		return this._valueSetByUnity;	// number
+	},
+	
+	getBridgePosRounded: function(index)
+	{
+		gameInstance.SendMessage("ImuscicaEngine", "QueryBridgePosRounded", index);
 		return this._valueSetByUnity;	// number
 	},
 	
@@ -187,6 +199,12 @@ var ImuscicaEngine =
 	getBarLength: function(index)
 	{
 		gameInstance.SendMessage("ImuscicaEngine", "QueryBarLength", index);
+		return this._valueSetByUnity;	// number
+	},
+	
+	getBarLengthRounded: function(index)
+	{
+		gameInstance.SendMessage("ImuscicaEngine", "QueryBarLengthRounded", index);
 		return this._valueSetByUnity;	// number
 	},
 
