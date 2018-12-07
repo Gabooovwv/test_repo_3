@@ -231,7 +231,24 @@ var ImuscicaEngine =
 	{
 		gameInstance.SendMessage("ImuscicaEngine", "UploadObj", url);
 	},
-
+	
+	exportObj: function()
+	{
+		gameInstance.SendMessage("ImuscicaEngine", "ExportObj");
+	},
+	
+	exportStl: function(binary)
+	{
+		if (binary)
+		{
+			gameInstance.SendMessage("ImuscicaEngine", "ExportBinaryStl");
+		}
+		else
+		{
+			gameInstance.SendMessage("ImuscicaEngine", "ExportStl");
+		}
+	},
+	
 	// -----------
 	//	callbacks
 	// -----------
@@ -265,6 +282,11 @@ var ImuscicaEngine =
 		onUploadCompleted: function(responseText)
 		{
 			console.log("upload completed: " + responseText);
+		},
+		
+		onExportCompleted: function(blob, fileName)
+		{
+			saveAs(blob, fileName);
 		}
 	}
 };
