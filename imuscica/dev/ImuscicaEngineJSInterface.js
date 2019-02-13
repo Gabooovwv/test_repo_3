@@ -12,6 +12,7 @@ var ImuscicaEngine =
 		bodyStartPos: [-0.11, 0, 0], bodyStartRot: [0, 0, 0, 1], bodyStartScale: [1, 1, 1], 
 		bodyEndPos: [0.11, 0, 0], bodyEndRot: [0, 0, 0, 1], bodyEndScale: [1, 1, 1], 
 		numBars: 5 } },
+	defaultTrombaMarinaData: { description: { type: "TrombaMarina" } },
     
 	// variable that used for return value of JS side functions (set by Unity JS plugin)
 	_valueSetByUnity: 0,
