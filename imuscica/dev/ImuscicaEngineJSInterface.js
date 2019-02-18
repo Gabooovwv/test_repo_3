@@ -47,7 +47,7 @@ var ImuscicaEngine =
 		gameInstance.SendMessage("ImuscicaEngine", "SetInstrumentData", JSON.stringify(instrumentData));
 	},
 	
-	setCameraPose: function(cameraPose, cameraAnimTimeInSeconds)
+	setCameraData: function(cameraData, cameraAnimTimeInSeconds)
 	{
 		if (typeof cameraAnimTimeInSeconds === 'undefined')
 		{
@@ -55,19 +55,19 @@ var ImuscicaEngine =
 		}
 		
 		var value = "";
-		for (var i = 0; i < 7; ++i)
+		for (var i = 0; i < 8; ++i)
 		{
-			value += cameraPose[i].toString() + " ";
+			value += cameraData[i].toString() + " ";
 		}
 		value += cameraAnimTimeInSeconds.toString();
 		
-		gameInstance.SendMessage("ImuscicaEngine", "SetCameraPoseWithString", value);
+		gameInstance.SendMessage("ImuscicaEngine", "SetCameraDataWithString", value);
 	},
 	
-	getCameraPose: function()
+	getCameraData: function()
 	{
-		gameInstance.SendMessage("ImuscicaEngine", "QueryCameraPose");
-		return this._valueSetByUnity;	// array of 7 numbers: [px, py, pz, rx, ry, rz, rw]
+		gameInstance.SendMessage("ImuscicaEngine", "QueryCameraData");
+		return this._valueSetByUnity;	// array of 8 numbers: [px, py, pz, rx, ry, rz, rw, d]
 	},
 	
 	resetCamera: function(cameraAnimTimeInSeconds)
