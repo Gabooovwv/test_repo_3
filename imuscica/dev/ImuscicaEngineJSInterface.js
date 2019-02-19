@@ -20,6 +20,12 @@ var ImuscicaEngine =
 	// ------------------
 	//  public functions
 	// ------------------
+	getVersion: function()
+	{
+		gameInstance.SendMessage("ImuscicaEngine", "QueryVersion");
+		return this._valueSetByUnity; // array of 3 numbers and a string: [major, minor, patch, commitInfo]
+	},
+	
 	setStaticModelsUrl: function(url)
 	{
 		gameInstance.SendMessage("ImuscicaEngine", "SetStaticModelsUrl", url);
