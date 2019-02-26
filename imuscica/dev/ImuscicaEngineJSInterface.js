@@ -256,6 +256,13 @@ var ImuscicaEngine =
 		}
 	},
 	
+	initiatePluck: function(partIndex, callCB)
+	{
+		var ci = callCB ? 1 : 0;
+		var value = partIndex.toString() + " " + ci.toString();
+		gameInstance.SendMessage("ImuscicaEngine", "InitiatePluckWithString", value)
+	},
+	
 	// -----------
 	//	callbacks
 	// -----------
