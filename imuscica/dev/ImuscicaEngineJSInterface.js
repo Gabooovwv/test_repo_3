@@ -263,7 +263,12 @@ var ImuscicaEngine =
 	{
 		onEngineLoaded: function()
 		{
-			console.log("Engine loaded");
+			var version = ImuscicaEngine.getVersion();
+			var major = version[0];
+			var minor = version[1];
+			var patch = version[2];
+			var commitInfo = version[3];
+			console.log("Leopoly Engine loaded: version " + major + "." + minor + "." + patch + " " + commitInfo);
 		},
 		
 		onBridgeMoved: function(index, pos, ratio)
