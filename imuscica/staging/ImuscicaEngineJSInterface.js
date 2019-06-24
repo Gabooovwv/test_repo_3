@@ -1,4 +1,4 @@
-var ImuscicaEngine =
+var ImuscicaEngine = 
 {
 	// default instrument data
 	defaultMonochordData: { description: { type: "Monochord", 
@@ -12,6 +12,7 @@ var ImuscicaEngine =
 		bodyStartPos: [-0.11, 0, 0], bodyStartRot: [0, 0, 0, 1], bodyStartScale: [1, 1, 1], 
 		bodyEndPos: [0.11, 0, 0], bodyEndRot: [0, 0, 0, 1], bodyEndScale: [1, 1, 1], 
 		numBars: 5 } },
+	defaultTrombaMarinaData: { description: { type: "TrombaMarina" } },
     
 	// variable that used for return value of JS side functions (set by Unity JS plugin)
 	_valueSetByUnity: 0,
@@ -19,9 +20,26 @@ var ImuscicaEngine =
 	// ------------------
 	//  public functions
 	// ------------------
+	getVersion: function()
+	{
+		gameInstance.SendMessage("ImuscicaEngine", "QueryVersion");
+		return this._valueSetByUnity; // array of 3 numbers and a string: [major, minor, patch, commitInfo]
+	},
+	
 	setStaticModelsUrl: function(url)
 	{
 		gameInstance.SendMessage("ImuscicaEngine", "SetStaticModelsUrl", url);
+	},
+	
+	setBaseMetric: function(metric, decimals)
+	{
+		var value = metric + " " + decimals;
+		gameInstance.SendMessage("ImuscicaEngine", "SetBaseMetricWithString", value);
+	},
+	
+	setMeterRoundDecimals: function(decimals)
+	{
+		gameInstance.SendMessage("ImuscicaEngine", "SetMeterRoundDecimals", decimals);
 	},
 
 	getInstrumentData: function()
@@ -33,6 +51,38 @@ var ImuscicaEngine =
 	setInstrumentData: function(instrumentData)
 	{
 		gameInstance.SendMessage("ImuscicaEngine", "SetInstrumentData", JSON.stringify(instrumentData));
+	},
+	
+	setCameraData: function(cameraData, cameraAnimTimeInSeconds)
+	{
+		if (typeof cameraAnimTimeInSeconds === 'undefined')
+		{
+			cameraAnimTimeInSeconds = 0.5;
+		}
+		
+		var value = "";
+		for (var i = 0; i < 8; ++i)
+		{
+			value += cameraData[i].toString() + " ";
+		}
+		value += cameraAnimTimeInSeconds.toString();
+		
+		gameInstance.SendMessage("ImuscicaEngine", "SetCameraDataWithString", value);
+	},
+	
+	getCameraData: function()
+	{
+		gameInstance.SendMessage("ImuscicaEngine", "QueryCameraData");
+		return this._valueSetByUnity;	// array of 8 numbers: [px, py, pz, rx, ry, rz, rw, d]
+	},
+	
+	resetCamera: function(cameraAnimTimeInSeconds)
+	{
+		if (typeof cameraAnimTimeInSeconds === 'undefined')
+		{
+			cameraAnimTimeInSeconds = 0.5;
+		}
+		gameInstance.SendMessage("ImuscicaEngine", "ResetCamera", cameraAnimTimeInSeconds);
 	},
 
 	getGLTF: function()
@@ -93,6 +143,12 @@ var ImuscicaEngine =
 		gameInstance.SendMessage("ImuscicaEngine", "QueryInstrumentLength");
 		return this._valueSetByUnity;	// number
 	},
+	
+	getInstrumentLengthRounded: function()
+	{
+		gameInstance.SendMessage("ImuscicaEngine", "QueryInstrumentLengthRounded");
+		return this._valueSetByUnity;
+	},
 
 	getInstrumentLengthLimits: function()
 	{
@@ -100,15 +156,33 @@ var ImuscicaEngine =
 		return this._valueSetByUnity;	// array of 2 numbers [min, max]
 	},
 
-	setBridgePos: function(index, bridgePos)
+	setBridgePos: function(index, pos)
 	{
-		var value = index.toString() + " " + bridgePos.toString();
-		gameInstance.SendMessage("ImuscicaEngine", "SetBridgePos", value);
+		var value = index.toString() + " " + pos.toString();
+		gameInstance.SendMessage("ImuscicaEngine", "SetBridgePosWithString", value);
 	},
-
+	
 	getBridgePos: function(index)
 	{
 		gameInstance.SendMessage("ImuscicaEngine", "QueryBridgePos", index);
+		return this._valueSetByUnity;	// number
+	},
+	
+	getBridgePosRounded: function(index)
+	{
+		gameInstance.SendMessage("ImuscicaEngine", "QueryBridgePosRounded", index);
+		return this._valueSetByUnity;	// number
+	},
+	
+	setBridgeRatio: function(index, ratio)
+	{
+		var value = index.toString() + " " + ratio.toString();
+		gameInstance.SendMessage("ImuscicaEngine", "SetBridgeRatioWithString", value);
+	},
+	
+	getBridgeRatio: function(index)
+	{
+		gameInstance.SendMessage("ImuscicaEngine", "QueryBridgeRatio", index);
 		return this._valueSetByUnity;	// number
 	},
 
@@ -132,6 +206,12 @@ var ImuscicaEngine =
 	getBarLength: function(index)
 	{
 		gameInstance.SendMessage("ImuscicaEngine", "QueryBarLength", index);
+		return this._valueSetByUnity;	// number
+	},
+	
+	getBarLengthRounded: function(index)
+	{
+		gameInstance.SendMessage("ImuscicaEngine", "QueryBarLengthRounded", index);
 		return this._valueSetByUnity;	// number
 	},
 
@@ -158,7 +238,31 @@ var ImuscicaEngine =
 	{
 		gameInstance.SendMessage("ImuscicaEngine", "UploadObj", url);
 	},
-
+	
+	exportObj: function()
+	{
+		gameInstance.SendMessage("ImuscicaEngine", "ExportObj");
+	},
+	
+	exportStl: function(binary)
+	{
+		if (binary)
+		{
+			gameInstance.SendMessage("ImuscicaEngine", "ExportBinaryStl");
+		}
+		else
+		{
+			gameInstance.SendMessage("ImuscicaEngine", "ExportStl");
+		}
+	},
+	
+	initiatePluck: function(partIndex, callCB)
+	{
+		var ci = callCB ? 1 : 0;
+		var value = partIndex.toString() + " " + ci.toString();
+		gameInstance.SendMessage("ImuscicaEngine", "InitiatePluckWithString", value)
+	},
+	
 	// -----------
 	//	callbacks
 	// -----------
@@ -166,38 +270,47 @@ var ImuscicaEngine =
 	{
 		onEngineLoaded: function()
 		{
-			console.log("Engine loaded");
-			Leopoly[Leopoly.applicationVersion].engineLoaded = true;
+			var version = ImuscicaEngine.getVersion();
+			var major = version[0];
+			var minor = version[1];
+			var patch = version[2];
+			var commitInfo = version[3];
+			console.log("Leopoly Engine loaded: version " + major + "." + minor + "." + patch + " " + commitInfo);
 		},
 		
-		onBridgeMovedToExtremalPosition: function(index, pos)
+		onBridgeMoved: function(index, pos, ratio)
 		{
-			console.log("Monochord bridge" + index + " moved to " + pos);
-			Leopoly[Leopoly.applicationVersion].Gui.bridgeMovedToExtremalPosition(index, pos);
+			console.log("Monochord bridge " + index + " moved to " + pos + " (" + ratio * 100.0 + "%)");
 		},
 		
 		onPlucked: function(index)
 		{
 			console.log("instrument part " + index + " plucked");
-			Leopoly[Leopoly.applicationVersion].Events[Leopoly[Leopoly.applicationVersion].instrumentName + 'Try'](index);
 		},
 		
 		onBarSelected: function(index)
 		{
 			console.log("bar " + index + " selected");
-			Leopoly[Leopoly.applicationVersion].Gui.barSelected(index);
 		},
 		
 		onBarLengthChanged: function(index, length)
 		{
 			console.log("bar " + index + " length changed to " + length);
-			Leopoly[Leopoly.applicationVersion].Gui.setBarLength(index, length);
+		},
+		
+		onInstrumentLengthChanged: function(length, interactionEnded)
+		{
+			console.log("instrument length changed to " + length + ", interaction ended: " + interactionEnded);
 		},
 		
 		onUploadCompleted: function(responseText)
 		{
 			console.log("upload completed: " + responseText);
-			Leopoly[Leopoly.applicationVersion].Communication.Athena.uploadCompleted(responseText);
+		},
+		
+		onExportCompleted: function(blob, fileName)
+		{
+			saveAs(blob, fileName);
 		}
 	}
 };
